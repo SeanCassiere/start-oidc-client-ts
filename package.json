@@ -1,0 +1,39 @@
+{
+	"name": "start-oidc-client-ts",
+	"version": "1.0.0",
+	"private": true,
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "vinxi dev",
+		"build": "vinxi build",
+		"start": "vinxi start"
+	},
+	"keywords": [],
+	"author": "SeanCassiere",
+	"license": "ISC",
+	"dependencies": {
+		"@tanstack/react-query": "^5.52.3",
+		"@tanstack/react-router": "^1.51.6",
+		"@tanstack/react-router-with-query": "^1.51.6",
+		"@tanstack/start": "^1.51.6",
+		"@ts-rest/core": "^3.51.0",
+		"@vitejs/plugin-react": "^4.3.1",
+		"oidc-client-ts": "^3.0.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-oidc-context": "^3.1.0",
+		"vinxi": "^0.4.2",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@types/react": "^18.3.4",
+		"@types/react-dom": "^18.3.0",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.41",
+		"tailwindcss": "^3.4.10",
+		"typescript": "^5.5.4",
+		"vite-tsconfig-paths": "^5.0.1"
+	}
+}
