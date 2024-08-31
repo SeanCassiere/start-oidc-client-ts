@@ -6,14 +6,19 @@ import type {
 } from "oidc-client-ts";
 import { createServerFn } from "@tanstack/start";
 
-import { getPublicEnvVar } from "./env";
+import { getPublicEnvVar } from "~/lib/env";
 
-const asyncStoreLengthFn = createServerFn("GET", async (_): Promise<number> => {
-	const useAppSession = await import("./session").then((m) => m.useAppSession);
-	const session = await useAppSession();
-	const store = session.data.authAsyncStore ?? {};
-	return Object.getOwnPropertyNames(store).length;
-});
+const asyncStoreLengthFn = createServerFn(
+	"POST",
+	async (_): Promise<number> => {
+		const useAppSession = await import("./session").then(
+			(m) => m.useAppSession
+		);
+		const session = await useAppSession();
+		const store = session.data.authAsyncStore ?? {};
+		return Object.getOwnPropertyNames(store).length;
+	}
+);
 const asyncStoreClearFn = createServerFn("POST", async (_): Promise<void> => {
 	const useAppSession = await import("./session").then((m) => m.useAppSession);
 	const session = await useAppSession();
@@ -21,7 +26,7 @@ const asyncStoreClearFn = createServerFn("POST", async (_): Promise<void> => {
 	return;
 });
 const asyncStoreGetItemFn = createServerFn(
-	"GET",
+	"POST",
 	async (key: string): Promise<string | null> => {
 		const useAppSession = await import("./session").then(
 			(m) => m.useAppSession
@@ -32,7 +37,7 @@ const asyncStoreGetItemFn = createServerFn(
 	}
 );
 const asyncStoreKeyFn = createServerFn(
-	"GET",
+	"POST",
 	async (index: number): Promise<string | null> => {
 		const useAppSession = await import("./session").then(
 			(m) => m.useAppSession
@@ -115,7 +120,7 @@ const stateStoreSetItemFn = createServerFn(
 	}
 );
 const stateStoreGetItemFn = createServerFn(
-	"GET",
+	"POST",
 	async (key: string): Promise<string | null> => {
 		const useAppSession = await import("./session").then(
 			(m) => m.useAppSession
@@ -144,7 +149,7 @@ const stateStoreRemoveItemFn = createServerFn(
 	}
 );
 const stateStoreGetAllKeysFn = createServerFn(
-	"GET",
+	"POST",
 	async (): Promise<string[]> => {
 		const useAppSession = await import("./session").then(
 			(m) => m.useAppSession
