@@ -15,8 +15,10 @@
 	"license": "ISC",
 	"dependencies": {
 		"@tanstack/react-query": "^5.52.3",
+		"@tanstack/react-query-devtools": "^5.53.1",
 		"@tanstack/react-router": "^1.51.6",
 		"@tanstack/react-router-with-query": "^1.51.6",
+		"@tanstack/router-devtools": "^1.51.6",
 		"@tanstack/start": "^1.51.6",
 		"@ts-rest/core": "^3.51.0",
 		"@vitejs/plugin-react": "^4.3.1",

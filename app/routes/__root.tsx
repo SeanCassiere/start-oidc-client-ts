@@ -2,6 +2,8 @@ import * as React from "react";
 import { createRootRouteWithContext, Link } from "@tanstack/react-router";
 import { Outlet, ScrollRestoration } from "@tanstack/react-router";
 import { Body, Head, Html, Meta, Scripts } from "@tanstack/start";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import appCss from "~/styles/app.css?url";
 
 import type { QueryClient } from "@tanstack/react-query";
@@ -29,6 +31,14 @@ export const Route = createRootRouteWithContext<RootRouteContext>()({
 	component: RootComponent,
 });
 
+const ReactQueryDevtoolsProduction = React.lazy(() =>
+	import("@tanstack/react-query-devtools/build/modern/production.js").then(
+		(d) => ({
+			default: d.ReactQueryDevtools,
+		})
+	)
+);
+
 function RootComponent() {
 	return (
 		<RootDocument>
@@ -38,6 +48,14 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const [showDevtools, setShowDevtools] = React.useState(false);
+
+	React.useEffect(() => {
+		if (typeof window === "undefined") return;
+		// @ts-expect-error
+		window.toggleDevtools = () => setShowDevtools((old) => !old);
+	}, []);
+
 	return (
 		<Html>
 			<Head>
@@ -68,6 +86,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				</nav>
 				{children}
 				<ScrollRestoration />
+				<TanStackRouterDevtools />
+				<ReactQueryDevtools />
+				{showDevtools && (
+					<React.Suspense fallback={null}>
+						<ReactQueryDevtoolsProduction />
+					</React.Suspense>
+				)}
 				<Scripts />
 			</Body>
 		</Html>
