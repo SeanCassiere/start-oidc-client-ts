@@ -12,10 +12,23 @@ export const Route = createFileRoute("/_auth")({
 	component: Auth,
 	loader: async ({ context, location }) => {
 		const user = await context.userManager.getUser();
+
+		// if user is expired, remove user and redirect to login
 		if (user && user.expired) {
 			await context.userManager.removeUser();
 			throw redirect({ to: "/login", search: { redirect_url: location.href } });
 		}
+
+		// expires in 5 minutes
+		if (
+			typeof window !== "undefined" &&
+			user &&
+			user.expires_at &&
+			user.expires_at - Date.now() < 5 * 60 * 1000
+		) {
+			await context.userManager.signinSilent();
+		}
+
 		return {
 			userLoadPromise: user,
 		};
