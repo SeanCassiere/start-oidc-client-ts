@@ -19,16 +19,6 @@ export const Route = createFileRoute("/_auth")({
 			throw redirect({ to: "/login", search: { redirect_url: location.href } });
 		}
 
-		// expires in 5 minutes
-		if (
-			typeof window !== "undefined" &&
-			user &&
-			user.expires_at &&
-			user.expires_at - Date.now() < 5 * 60 * 1000
-		) {
-			await context.userManager.signinSilent();
-		}
-
 		return {
 			userLoadPromise: user,
 		};
